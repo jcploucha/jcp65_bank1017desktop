@@ -22,7 +22,7 @@ public class Customer {
 	
 	public Customer(String customerID){
 		String sql = "SELECT * FROM jcp65_bank1017.customer where customerID = '" + customerID + "';";
-		System.out.println(sql);
+		// System.out.println(sql);
 		DbUtilities db = new DbUtilities();
 		try {
 			ResultSet rs = db.getResultSet(sql);
@@ -34,7 +34,7 @@ public class Customer {
 				this.streetAddress = rs.getString("streetAddress");
 				this.city = rs.getString("city");
 				this.state = rs.getString("state");
-				this.zip = rs.getString("zip");
+				this.zip = rs.getInt("zip");
 				this.loginName = rs.getString("loginName");
 				this.pin = rs.getInt("pin");
 			}
@@ -45,7 +45,7 @@ public class Customer {
 		
 	}
 	
-	public Customer(String lastName, String firstName, String ssn, String loginName, int pin, String streedAddress, String city, String state, int zip){
+	public Customer(String lastName, String firstName, String ssn, String loginName, int pin, String streetAddress, String city, String state, int zip){
 		this.customerID = UUID.randomUUID().toString();
 		this.lastName = lastName;
 		this.firstName = firstName;
@@ -73,6 +73,10 @@ public class Customer {
 		DbUtilities db = new DbUtilities();
 		db.executeQuery(sql);
 		
+	}
+	
+	public String getCustomerID(){
+		return this.customerID;
 	}
 
 }
