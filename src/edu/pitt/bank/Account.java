@@ -118,9 +118,7 @@ public class Account {
 	}
 	
 	public void addAccountOwner(Customer accountOwner){
-		Customer c = new Customer(accountOwner);
-		accountOwners.add(c);
-
+		accountOwners.add(accountOwner);
 	}
 	
 }
