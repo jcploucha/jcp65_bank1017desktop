@@ -117,5 +117,10 @@ public class Account {
 		return this.balance;
 	}
 	
+	public void addAccountOwner(Customer accountOwner){
+		Customer c = new Customer(accountOwner);
+		accountOwners.add(c);
+
+	}
 	
 }
