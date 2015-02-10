@@ -38,6 +38,17 @@ public class Account {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		sql = "SELECT * FROM jcp65_bank1017.transaction ";
+		sql += "WHERE accountID = '" + accountID + "'";
+		try {
+			ResultSet rs = db.getResultSet(sql);
+			while (rs.next()) {
+				createTransaction(rs.getString("transactionID"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public Account(String accountType, double initialBalance){
@@ -105,5 +116,6 @@ public class Account {
 	public double getBalance(){
 		return this.balance;
 	}
+	
 	
 }
