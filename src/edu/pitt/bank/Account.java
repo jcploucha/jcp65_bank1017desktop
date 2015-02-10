@@ -117,5 +117,8 @@ public class Account {
 		return this.balance;
 	}
 	
+	public void addAccountOwner(Customer accountOwner){
+		accountOwners.add(accountOwner);
+	}
 	
 }
