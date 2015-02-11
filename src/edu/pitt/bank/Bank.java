@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import edu.pitt.utilities.DbUtilities;
+import edu.pitt.utilities.MySqlUtilities;
 
 
 public class Bank {
@@ -20,7 +21,7 @@ public class Bank {
 
 	private void loadAccounts() {
 		String sql = "SELECT * FROM jcp65_bank1017.account;";
-		DbUtilities db = new DbUtilities();
+		DbUtilities db = new MySqlUtilities();
 		try {
 			ResultSet rs = db.getResultSet(sql);
 			while(rs.next()){
@@ -58,7 +59,7 @@ public class Bank {
 		String sql = "SELECT * FROM jcp65_bank1017.account ";
 		sql += "JOIN jcp65_bank1017.customer_account ON jcp65_bank1017.account.accountID = jcp65_bank1017.customer_account.fk_accountID ";
 		sql += "JOIN jcp65_bank1017.customer on jcp65_bank1017.customer_account.fk_customerID = jcp65_bank1017.customer.customerID;";
-		DbUtilities db = new DbUtilities();
+		DbUtilities db = new MySqlUtilities();
 		try {
 			ResultSet rs = db.getResultSet(sql);
 			while(rs.next()){

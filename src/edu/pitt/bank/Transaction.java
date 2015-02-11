@@ -19,7 +19,7 @@ public class Transaction {
 		String sql = "SELECT * FROM jcp65_bank1017.transaction "; 
 		sql += "WHERE transactionID = '" + transactionID + "'";
 		System.out.println(sql);
-		MySqlUtilities db = new MySqlUtilities();
+		DbUtilities db = new MySqlUtilities();
 		try {
 			ResultSet rs = db.getResultSet(sql);
 			while(rs.next()){
@@ -55,7 +55,7 @@ public class Transaction {
 		
 		//System.out.println(sql);
 		
-		MySqlUtilities db = new MySqlUtilities();
+		DbUtilities db = new MySqlUtilities();
 		db.executeQuery(sql);
 	}
 }

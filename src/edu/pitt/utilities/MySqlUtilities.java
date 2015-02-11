@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Dmitriy Babichenko
  * @version 1.1
  */
-public class DbUtilities {
+public class MySqlUtilities implements DbUtilities{
 
     private Connection conn = null; // connection object
     private String hostName = "sis-teach-01.sis.pitt.edu:3306"; // server address + port number
@@ -31,7 +31,7 @@ public class DbUtilities {
     /**
      * Default constructor creates a connection to database at the time of instantiation.
      */
-    public DbUtilities() {
+    public MySqlUtilities() {
         createDbConnection();
     }
     
@@ -42,7 +42,7 @@ public class DbUtilities {
      * @param dbUserName - user name for MySQL database
      * @param dbPassword - password that matches dbUserName for MySQL database
      */
-    public DbUtilities(String hostName, String dbName, String dbUserName, String dbPassword) {
+    public MySqlUtilities(String hostName, String dbName, String dbUserName, String dbPassword) {
     	// Set class-level (instance) variables
         this.hostName = hostName;
         this.dbName = dbName;

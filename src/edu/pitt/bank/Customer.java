@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 import edu.pitt.utilities.DbUtilities;
+import edu.pitt.utilities.MySqlUtilities;
 
 
 
@@ -23,7 +24,7 @@ public class Customer {
 	public Customer(String customerID){
 		String sql = "SELECT * FROM jcp65_bank1017.customer where customerID = '" + customerID + "';";
 		// System.out.println(sql);
-		DbUtilities db = new DbUtilities();
+		DbUtilities db = new MySqlUtilities();
 		try {
 			ResultSet rs = db.getResultSet(sql);
 			while(rs.next()) {
@@ -70,7 +71,7 @@ public class Customer {
 		sql += "'" + this.loginName + "', ";
 		sql += this.pin + "); ";
 
-		DbUtilities db = new DbUtilities();
+		DbUtilities db = new MySqlUtilities();
 		db.executeQuery(sql);
 		
 	}
