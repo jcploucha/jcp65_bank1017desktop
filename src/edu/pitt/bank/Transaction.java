@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.UUID;
 
-import edu.pitt.utilities.DbUtilities;
+import edu.pitt.utilities.MySqlUtilities;
 
 public class Transaction {
 	private String transactionID;
@@ -19,7 +19,7 @@ public class Transaction {
 		String sql = "SELECT * FROM jcp65_bank1017.transaction "; 
 		sql += "WHERE transactionID = '" + transactionID + "'";
 		System.out.println(sql);
-		DbUtilities db = new DbUtilities();
+		MySqlUtilities db = new MySqlUtilities();
 		try {
 			ResultSet rs = db.getResultSet(sql);
 			while(rs.next()){
@@ -55,7 +55,7 @@ public class Transaction {
 		
 		//System.out.println(sql);
 		
-		DbUtilities db = new DbUtilities();
+		MySqlUtilities db = new MySqlUtilities();
 		db.executeQuery(sql);
 	}
 }

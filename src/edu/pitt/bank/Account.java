@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
-import edu.pitt.utilities.DbUtilities;
+import edu.pitt.utilities.MySqlUtilities;
 
 public class Account {
 	private String accountID;
@@ -22,7 +22,7 @@ public class Account {
 	public Account(String accountID){
 		String sql = "SELECT * FROM jcp65_bank1017.account "; 
 		sql += "WHERE accountID = '" + accountID + "'";
-		DbUtilities db = new DbUtilities();
+		MySqlUtilities db = new MySqlUtilities();
 		try {
 			ResultSet rs = db.getResultSet(sql);
 			while(rs.next()){
@@ -71,7 +71,7 @@ public class Account {
 		sql += "'" + this.status + "', ";
 		sql += "CURDATE());";
 		
-		DbUtilities db = new DbUtilities();
+		MySqlUtilities db = new MySqlUtilities();
 		db.executeQuery(sql);
 	}
 	
@@ -93,7 +93,7 @@ public class Account {
 		String sql = "UPDATE jcp65_bank1017.account SET balance = " + this.balance + " ";
 		sql += "WHERE accountID = '" + this.accountID + "';";
 		
-		DbUtilities db = new DbUtilities();
+		MySqlUtilities db = new MySqlUtilities();
 		db.executeQuery(sql);
 	}
 	
