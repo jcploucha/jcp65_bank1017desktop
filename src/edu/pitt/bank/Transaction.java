@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.UUID;
 
+import edu.pitt.utilities.DbUtilities;
 import edu.pitt.utilities.MySqlUtilities;
 
 public class Transaction {
