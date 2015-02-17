@@ -80,4 +80,8 @@ public class Customer {
 		return this.customerID;
 	}
 
+	public String getLastName(){
+		return this.lastName;
+	}
+
 }

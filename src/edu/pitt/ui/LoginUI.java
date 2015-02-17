@@ -3,24 +3,40 @@ package edu.pitt.ui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
 import java.awt.BorderLayout;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+
+import edu.pitt.bank.Customer;
+import edu.pitt.utilities.Security;
+
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JEditorPane;
+
 import java.awt.GridLayout;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.BoxLayout;
+
 import java.awt.FlowLayout;
+
 import javax.swing.SpringLayout;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.JSeparator;
+
 import java.awt.Window.Type;
 
 public class LoginUI {
@@ -104,6 +120,16 @@ public class LoginUI {
 		btnLoginbutton.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		btnLoginbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String loginName = txtLoginName.getText();
+				int pin = Integer.parseInt(txtPassword.getText());
+				Security s = new Security();
+				Customer c = s.validateLogin(loginName, pin);
+				if (c != null) {
+					AccountDetailsUI ad = new AccountDetailsUI();
+					frmBankLogin.setVisible(false);
+				} else {
+					JOptionPane.showMessageDialog(null, "Invalid Login");
+				}
 			}
 		});
 		frmBankLogin.getContentPane().add(btnLoginbutton);
