@@ -65,6 +65,10 @@ public class AccountDetailsUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
+		Account a = (Account) boxAccount.getSelectedItem();
+		System.out.println(a.getBalance());
+		
 		frmBankAccountDetails = new JFrame();
 		frmBankAccountDetails.setTitle("Bank1017 Account Details");
 		frmBankAccountDetails.setBounds(100, 100, 450, 401);
@@ -87,7 +91,7 @@ public class AccountDetailsUI {
 		frmBankAccountDetails.getContentPane().add(txtAmount);
 		txtAmount.setColumns(10);
 		
-		JComboBox boxAccount = new JComboBox();
+		JComboBox<Account> boxAccount = new JComboBox<Account>();
 		boxAccount.setBounds(106, 103, 296, 27);
 		frmBankAccountDetails.getContentPane().add(boxAccount);
 		
@@ -103,7 +107,7 @@ public class AccountDetailsUI {
 		lblWelcomeText.setBounds(10, 10, 143, 16);
 		frmBankAccountDetails.getContentPane().add(lblWelcomeText);
 		
-		JLabel lblWelcome = new JLabel("DICKBUTT");
+		JLabel lblWelcome = new JLabel(accountOwner.getFirstName() + " " + accountOwner.getLastName());
 		lblWelcome.setBounds(159, 10, 279, 16);
 		lblWelcome.setFont(new Font("Lucida Grande", Font.BOLD, 13));
 		frmBankAccountDetails.getContentPane().add(lblWelcome);
@@ -139,7 +143,7 @@ public class AccountDetailsUI {
 		lblAcctType.setBounds(138, 255, 83, 16);
 		frmBankAccountDetails.getContentPane().add(lblAcctType);
 		
-		JLabel lblBalance = new JLabel("$1,000,000,000.00");
+		JLabel lblBalance = new JLabel(a.getBalance());
 		lblBalance.setFont(new Font("Lucida Grande", Font.BOLD, 13));
 		lblBalance.setBounds(98, 289, 134, 16);
 		frmBankAccountDetails.getContentPane().add(lblBalance);
@@ -165,7 +169,13 @@ public class AccountDetailsUI {
 		frmBankAccountDetails.getContentPane().add(btnShowTranctions);
 		
 		DbUtilities db = new MySqlUtilities(); 
-		String sql = "SELECT * FROM jcp65_bank1017.account;";
+		String sql = "SELECT * FROM jcp65_bank1017.account; "; 
+//		String sql = "SELECT * FROM jcp65_bank1017.account JOIN "; 
+//		sql += "jcp65_bank1017.customer_account ON jcp65_bank1017.account.accountID = ";
+//		sql += "jcp65_bank1017.customer_account.fk_accountID JOIN ";
+//		sql += "jcp65_bank1017.customer ON ";
+//		sql += "jcp65_bank1017.customer_account.fk_customerID = jcp65_bank1017.customer.customerID ";
+//		sql += "WHERE jcp65_bank1017.customer.customerID = '" + accountOwner.getCustomerID() + "';";
 		try {
 			ResultSet rs = db.getResultSet(sql);
 			while (rs.next()) {
@@ -175,6 +185,8 @@ public class AccountDetailsUI {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+	
+
+
 	}
 }
