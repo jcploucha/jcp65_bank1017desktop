@@ -125,7 +125,7 @@ public class LoginUI {
 				Security s = new Security();
 				Customer c = s.validateLogin(loginName, pin);
 				if (c != null) {
-					AccountDetailsUI ad = new AccountDetailsUI();
+					AccountDetailsUI ad = new AccountDetailsUI(c);
 					frmBankLogin.setVisible(false);
 				} else {
 					JOptionPane.showMessageDialog(null, "Invalid Login");

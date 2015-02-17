@@ -12,6 +12,7 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
 import edu.pitt.bank.Account;
+import edu.pitt.bank.Customer;
 import edu.pitt.utilities.DbUtilities;
 import edu.pitt.utilities.MySqlUtilities;
 
@@ -48,27 +49,14 @@ public class AccountDetailsUI {
 
 	private JFrame frmBankAccountDetails;
 	private JTextField txtAmount;
+	private Customer accountOwner;
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					AccountDetailsUI window = new AccountDetailsUI();
-//					window.frmBankAccountDetails.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
 	/**
 	 * Create the application.
 	 */
-	public AccountDetailsUI() {
+	public AccountDetailsUI(Customer c) {
+		accountOwner = c;
 		initialize();
 		frmBankAccountDetails.setVisible(true);
 	}
