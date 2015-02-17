@@ -62,8 +62,8 @@ public class Customer {
 		sql += "VALUES (";
 		sql += "'" + this.customerID + "', ";
 		sql += "'" + this.lastName + "', ";
-		sql += "'" + this.firstName + "', ";
 		sql += "'" + this.ssn + "', ";
+		sql += "'" + this.firstName + "', ";
 		sql += "'" + this.streetAddress + "', ";
 		sql += "'" + this.city + "', ";
 		sql += "'" + this.state + "', ";
@@ -78,6 +78,10 @@ public class Customer {
 	
 	public String getCustomerID(){
 		return this.customerID;
+	}
+
+	public String getFirstName() {
+		return this.firstName;
 	}
 
 	public String getLastName(){
