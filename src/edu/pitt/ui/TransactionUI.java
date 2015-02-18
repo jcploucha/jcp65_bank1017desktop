@@ -26,6 +26,7 @@ public class TransactionUI {
 	//TODO: ADD ACCOUNT TO CONSTRUCTOR
 	public TransactionUI() {
 		initialize();
+		frmBankAccountTransactions.setVisible(true);
 	}
 
 	/**
@@ -35,7 +36,7 @@ public class TransactionUI {
 		frmBankAccountTransactions = new JFrame();
 		frmBankAccountTransactions.setTitle("Bank1017 Account Transactions");
 		frmBankAccountTransactions.setBounds(100, 100, 450, 300);
-		frmBankAccountTransactions.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmBankAccountTransactions.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
 		transactionPane = new JScrollPane();
 		frmBankAccountTransactions.getContentPane().add(transactionPane);

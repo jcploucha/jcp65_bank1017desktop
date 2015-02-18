@@ -13,9 +13,12 @@ import com.jgoodies.forms.factories.FormFactory;
 
 import edu.pitt.bank.Account;
 import edu.pitt.bank.Customer;
+import edu.pitt.bank.Transaction;
 import edu.pitt.utilities.DbUtilities;
 import edu.pitt.utilities.MySqlUtilities;
+import edu.pitt.utilities.Security;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JEditorPane;
 
@@ -50,6 +53,16 @@ public class AccountDetailsUI {
 	private JFrame frmBankAccountDetails;
 	private JTextField txtAmount;
 	private Customer accountOwner;
+	private JLabel lblBalance;
+	private JLabel lblAcctType;
+	private JLabel lblPenalty;
+	private JLabel lblInterestRate;
+	private Account a;
+	private String strBalance;
+	private String strInterest;
+	private String strAcctType;
+	private String strPenalty;
+	private String permissions = "";
 
 
 	/**
@@ -65,9 +78,12 @@ public class AccountDetailsUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+
+		for(int i = 0; i <= accountOwner.getGroups().size() - 1; i ++) {
+			permissions += accountOwner.getGroups().get(i) + ", ";
+		}
+		permissions = permissions.substring(0, permissions.length()-2);
 		
-		Account a = (Account) boxAccount.getSelectedItem();
-		System.out.println(a.getBalance());
 		
 		frmBankAccountDetails = new JFrame();
 		frmBankAccountDetails.setTitle("Bank1017 Account Details");
@@ -80,6 +96,12 @@ public class AccountDetailsUI {
 		btnDeposit.setBounds(189, 182, 99, 40);
 		btnDeposit.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		frmBankAccountDetails.getContentPane().add(btnDeposit);
+		btnDeposit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Double amt = Double.parseDouble(txtAmount.getText());	
+				Transaction t = new Transaction(accountOwner.getCustomerID(), "deposit", amt, 23.00);
+			}
+		});
 		
 		JButton btnWithdraw = new JButton("Withdraw");
 		btnWithdraw.setBounds(294, 182, 111, 40);
@@ -109,16 +131,16 @@ public class AccountDetailsUI {
 		
 		JLabel lblWelcome = new JLabel(accountOwner.getFirstName() + " " + accountOwner.getLastName());
 		lblWelcome.setBounds(159, 10, 279, 16);
-		lblWelcome.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		lblWelcome.setFont(new Font("Lucida Grande", Font.BOLD, 15));
 		frmBankAccountDetails.getContentPane().add(lblWelcome);
 		
 		JLabel lblPermissionsText = new JLabel("You have the following permissions in this system:");
 		lblPermissionsText.setBounds(10, 32, 322, 16);
 		frmBankAccountDetails.getContentPane().add(lblPermissionsText);
 		
-		JLabel lblPermissions = new JLabel("POOP, POOPBUTT, POOPYBUTT");
+		JLabel lblPermissions = new JLabel(permissions);
 		lblPermissions.setBounds(20, 54, 408, 16);
-		lblPermissions.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		lblPermissions.setFont(new Font("Lucida Grande", Font.BOLD, 15));
 		lblPermissions.setHorizontalAlignment(SwingConstants.CENTER);
 		frmBankAccountDetails.getContentPane().add(lblPermissions);
 		
@@ -138,55 +160,80 @@ public class AccountDetailsUI {
 		lblPenaltyText.setBounds(244, 289, 54, 16);
 		frmBankAccountDetails.getContentPane().add(lblPenaltyText);
 		
-		JLabel lblAcctType = new JLabel("CHECKING");
-		lblAcctType.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		lblAcctType.setBounds(138, 255, 83, 16);
-		frmBankAccountDetails.getContentPane().add(lblAcctType);
-		
-		JLabel lblBalance = new JLabel(a.getBalance());
-		lblBalance.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		lblBalance.setBounds(98, 289, 134, 16);
-		frmBankAccountDetails.getContentPane().add(lblBalance);
-		
-		JLabel lblPenalty = new JLabel("DOLLA BILLZ");
-		lblPenalty.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		lblPenalty.setBounds(294, 289, 111, 16);
-		frmBankAccountDetails.getContentPane().add(lblPenalty);
-		
-		JLabel lblInterestRate = new JLabel("99.99%");
-		lblInterestRate.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		lblInterestRate.setBounds(330, 255, 75, 16);
-		frmBankAccountDetails.getContentPane().add(lblInterestRate);
-		
 		JButton btnExit = new JButton("Exit");
 		btnExit.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		btnExit.setBounds(340, 333, 100, 40);
 		frmBankAccountDetails.getContentPane().add(btnExit);
 		
-		JButton btnShowTranctions = new JButton("Show Transactions");
-		btnShowTranctions.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		btnShowTranctions.setBounds(10, 333, 179, 40);
-		frmBankAccountDetails.getContentPane().add(btnShowTranctions);
+		JButton btnShowTransactions = new JButton("Show Transactions");
+		btnShowTransactions.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		btnShowTransactions.setBounds(10, 333, 179, 40);
+		frmBankAccountDetails.getContentPane().add(btnShowTransactions);
+		btnShowTransactions.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TransactionUI t = new TransactionUI();
+			}
+		});
+		
 		
 		DbUtilities db = new MySqlUtilities(); 
-		String sql = "SELECT * FROM jcp65_bank1017.account; "; 
-//		String sql = "SELECT * FROM jcp65_bank1017.account JOIN "; 
-//		sql += "jcp65_bank1017.customer_account ON jcp65_bank1017.account.accountID = ";
-//		sql += "jcp65_bank1017.customer_account.fk_accountID JOIN ";
-//		sql += "jcp65_bank1017.customer ON ";
-//		sql += "jcp65_bank1017.customer_account.fk_customerID = jcp65_bank1017.customer.customerID ";
-//		sql += "WHERE jcp65_bank1017.customer.customerID = '" + accountOwner.getCustomerID() + "';";
+		String sql = "SELECT * FROM jcp65_bank1017.account JOIN "; 
+		sql += "jcp65_bank1017.customer_account ON jcp65_bank1017.account.accountID = ";
+		sql += "jcp65_bank1017.customer_account.fk_accountID JOIN ";
+		sql += "jcp65_bank1017.customer ON ";
+		sql += "jcp65_bank1017.customer_account.fk_customerID = jcp65_bank1017.customer.customerID ";
+		sql += "WHERE jcp65_bank1017.customer.customerID = '" + accountOwner.getCustomerID() + "';";
 		try {
 			ResultSet rs = db.getResultSet(sql);
 			while (rs.next()) {
 				Account acct = new Account(rs.getString("accountID"));
 				boxAccount.addItem(acct);
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	
+		
+		a = (Account) boxAccount.getSelectedItem();
+		strBalance = Double.toString(a.getBalance());
+		strInterest = Double.toString(a.getInterestRate());
+		strAcctType = a.getAccountType();
+		strPenalty = Double.toString(a.getPenalty());
+		
+		lblBalance = new JLabel(strBalance);
+		lblBalance.setFont(new Font("Lucida Grande", Font.BOLD, 15));
+		lblBalance.setBounds(98, 289, 134, 16);
+		frmBankAccountDetails.getContentPane().add(lblBalance);
+		
+		lblAcctType = new JLabel(strAcctType);
+		lblAcctType.setFont(new Font("Lucida Grande", Font.BOLD, 15));
+		lblAcctType.setBounds(138, 255, 83, 16);
+		frmBankAccountDetails.getContentPane().add(lblAcctType);
+		
+		lblPenalty = new JLabel(strPenalty);
+		lblPenalty.setFont(new Font("Lucida Grande", Font.BOLD, 15));
+		lblPenalty.setBounds(294, 289, 111, 16);
+		frmBankAccountDetails.getContentPane().add(lblPenalty);
+		
+		lblInterestRate = new JLabel(strInterest);
+		lblInterestRate.setFont(new Font("Lucida Grande", Font.BOLD, 15));
+		lblInterestRate.setBounds(330, 255, 75, 16);
+		frmBankAccountDetails.getContentPane().add(lblInterestRate);
 
+		boxAccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				a = (Account) boxAccount.getSelectedItem();
+				strBalance = Double.toString(a.getBalance());
+				strInterest = Double.toString(a.getInterestRate());
+				strAcctType = a.getAccountType();
+				strPenalty = Double.toString(a.getPenalty());
+				
+				lblBalance.setText(strBalance);
+				lblInterestRate.setText(strInterest);
+				lblAcctType.setText(strAcctType);
+				lblPenalty.setText(strPenalty);
 
+			}
+		});
 	}
 }

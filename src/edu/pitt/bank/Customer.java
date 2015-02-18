@@ -2,6 +2,7 @@ package edu.pitt.bank;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import edu.pitt.utilities.DbUtilities;
@@ -20,10 +21,16 @@ public class Customer {
 	private int zip;
 	private String loginName;
 	private int pin;
+	private ArrayList<String> permissions = new ArrayList<String>();
 	
 	public Customer(String customerID){
-		String sql = "SELECT * FROM jcp65_bank1017.customer where customerID = '" + customerID + "';";
-		// System.out.println(sql);
+		String sql = "SELECT * FROM jcp65_bank1017.customer JOIN ";
+		sql += "jcp65_bank1017.user_permissions ON  jcp65_bank1017.customer.customerID = ";
+		sql += "jcp65_bank1017.user_permissions.groupOrUserID JOIN ";
+		sql += "jcp65_bank1017.groups ON ";
+		sql += "jcp65_bank1017.user_permissions.groupID = ";
+		sql += "jcp65_bank1017.groups.groupID WHERE ";
+		sql += "customerID = '" + customerID + "';";
 		DbUtilities db = new MySqlUtilities();
 		try {
 			ResultSet rs = db.getResultSet(sql);
@@ -38,6 +45,7 @@ public class Customer {
 				this.zip = rs.getInt("zip");
 				this.loginName = rs.getString("loginName");
 				this.pin = rs.getInt("pin");
+				permissions.add(rs.getString("groupName"));
 			}
 
 		} catch (SQLException e) {
@@ -86,6 +94,10 @@ public class Customer {
 
 	public String getLastName(){
 		return this.lastName;
+	}
+
+	public ArrayList<String> getGroups(){
+		return this.permissions;
 	}
 
 }

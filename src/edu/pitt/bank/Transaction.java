@@ -54,7 +54,7 @@ public class Transaction {
 		sql += "'" + this.type + "', ";
 		sql += balance + ");";
 		
-		//System.out.println(sql);
+		System.out.println(sql);
 		
 		DbUtilities db = new MySqlUtilities();
 		db.executeQuery(sql);
