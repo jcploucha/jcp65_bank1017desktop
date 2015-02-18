@@ -1,0 +1,2 @@
+Wed Feb 18 00:33:48 EST 2015|Cannot add or update a child row: a foreign key constraint fails (`jcp65_bank1017`.`transaction`, CONSTRAINT `fk_Transaction_AccountID` FOREIGN KEY (`accountID`) REFERENCES `account` (`accountID`) ON DELETE CASCADE ON UPDATE CASCADE)
+Wed Feb 18 00:33:48 EST 2015|INSERT INTO jcp65_bank1017.transaction (transactionID, accountID, amount, transactionDate, type, balance)  VALUES ('55a71f79-b8c4-4917-a831-e7ae382e2318', '01b9f986-5d41-11e3-94ef-97beef767f1d', 34.0, CURDATE(), 'deposit', 23.0);

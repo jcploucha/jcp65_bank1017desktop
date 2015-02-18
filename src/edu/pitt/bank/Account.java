@@ -114,8 +114,24 @@ public class Account {
 		return this.accountID;
 	}
 	
+	public String toString(){
+		return getAccountID();
+	}
+	
 	public double getBalance(){
 		return this.balance;
+	}
+
+	public double getInterestRate(){
+		return this.interestRate;
+	}
+
+	public double getPenalty(){
+		return this.penalty;
+	}
+
+	public String getAccountType(){
+		return this.type;
 	}
 	
 	public void addAccountOwner(Customer accountOwner){
