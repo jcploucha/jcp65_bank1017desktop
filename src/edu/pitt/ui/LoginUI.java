@@ -100,6 +100,7 @@ public class LoginUI {
 		btnExitbutton.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		btnExitbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
 			}
 		});
 		

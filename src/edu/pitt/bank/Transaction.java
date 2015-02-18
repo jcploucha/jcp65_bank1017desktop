@@ -19,7 +19,6 @@ public class Transaction {
 	public Transaction(String transactionID){
 		String sql = "SELECT * FROM jcp65_bank1017.transaction "; 
 		sql += "WHERE transactionID = '" + transactionID + "'";
-		System.out.println(sql);
 		DbUtilities db = new MySqlUtilities();
 		try {
 			ResultSet rs = db.getResultSet(sql);
@@ -49,14 +48,43 @@ public class Transaction {
 		sql += " VALUES ";
 		sql += "('" + this.transactionID + "', ";
 		sql += "'" + this.accountID + "', ";
-		sql += amount + ", ";
+		sql += this.amount + ", ";
 		sql += "CURDATE(), ";
 		sql += "'" + this.type + "', ";
-		sql += balance + ");";
-		
+		sql += this.balance + ");";
+		sql = "UPDATE jcp65_bank1017.account SET balance = " + this.balance + " WHERE ";
+		sql += "accountID = '" + this.accountID + "';";
+
 		System.out.println(sql);
+
+
 		
 		DbUtilities db = new MySqlUtilities();
 		db.executeQuery(sql);
 	}
+
+	public String getTransactionID() {
+		return this.transactionID;
+	}
+
+	public String getAccountID() {
+		return this.accountID;
+	}
+
+	public String getType() {
+		return this.type;
+	}
+
+	public double getAmount() {
+		return this.amount;
+	}
+
+	public double getBalance() {
+		return this.balance;
+	}
+
+	public Date getTransactionDate() {
+		return this.transactionDate;
+	} 
+
 }

@@ -53,6 +53,7 @@ public class AccountDetailsUI {
 	private JFrame frmBankAccountDetails;
 	private JTextField txtAmount;
 	private Customer accountOwner;
+	private Account acct;
 	private JLabel lblBalance;
 	private JLabel lblAcctType;
 	private JLabel lblPenalty;
@@ -63,6 +64,7 @@ public class AccountDetailsUI {
 	private String strAcctType;
 	private String strPenalty;
 	private String permissions = "";
+	private String strAccountID;
 
 
 	/**
@@ -91,23 +93,7 @@ public class AccountDetailsUI {
 		frmBankAccountDetails.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		SpringLayout springLayout = new SpringLayout();
 		frmBankAccountDetails.getContentPane().setLayout(null);
-		
-		JButton btnDeposit = new JButton("Deposit");
-		btnDeposit.setBounds(189, 182, 99, 40);
-		btnDeposit.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		frmBankAccountDetails.getContentPane().add(btnDeposit);
-		btnDeposit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Double amt = Double.parseDouble(txtAmount.getText());	
-				Transaction t = new Transaction(accountOwner.getCustomerID(), "deposit", amt, 23.00);
-			}
-		});
-		
-		JButton btnWithdraw = new JButton("Withdraw");
-		btnWithdraw.setBounds(294, 182, 111, 40);
-		btnWithdraw.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		frmBankAccountDetails.getContentPane().add(btnWithdraw);
-		
+				
 		txtAmount = new JTextField();
 		txtAmount.setBounds(109, 136, 296, 40);
 		frmBankAccountDetails.getContentPane().add(txtAmount);
@@ -164,17 +150,12 @@ public class AccountDetailsUI {
 		btnExit.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		btnExit.setBounds(340, 333, 100, 40);
 		frmBankAccountDetails.getContentPane().add(btnExit);
-		
-		JButton btnShowTransactions = new JButton("Show Transactions");
-		btnShowTransactions.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		btnShowTransactions.setBounds(10, 333, 179, 40);
-		frmBankAccountDetails.getContentPane().add(btnShowTransactions);
-		btnShowTransactions.addActionListener(new ActionListener() {
+		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TransactionUI t = new TransactionUI();
+				System.exit(0);
 			}
 		});
-		
+				
 		
 		DbUtilities db = new MySqlUtilities(); 
 		String sql = "SELECT * FROM jcp65_bank1017.account JOIN "; 
@@ -199,6 +180,9 @@ public class AccountDetailsUI {
 		strInterest = Double.toString(a.getInterestRate());
 		strAcctType = a.getAccountType();
 		strPenalty = Double.toString(a.getPenalty());
+		strAccountID = a.getAccountID();
+		double bal = a.getBalance();
+
 		
 		lblBalance = new JLabel(strBalance);
 		lblBalance.setFont(new Font("Lucida Grande", Font.BOLD, 15));
@@ -227,12 +211,49 @@ public class AccountDetailsUI {
 				strInterest = Double.toString(a.getInterestRate());
 				strAcctType = a.getAccountType();
 				strPenalty = Double.toString(a.getPenalty());
+				strAccountID = a.getAccountID();
 				
 				lblBalance.setText(strBalance);
 				lblInterestRate.setText(strInterest);
 				lblAcctType.setText(strAcctType);
 				lblPenalty.setText(strPenalty);
 
+			}
+		});
+
+		JButton btnDeposit = new JButton("Deposit");
+		btnDeposit.setBounds(189, 182, 99, 40);
+		btnDeposit.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		frmBankAccountDetails.getContentPane().add(btnDeposit);
+		btnDeposit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Double amt = Double.parseDouble(txtAmount.getText());	
+				Transaction t = new Transaction(strAccountID, "deposit", amt, bal + amt);
+				strBalance = Double.toString(bal + amt);
+				lblBalance.setText(strBalance);
+			}
+		});
+		
+		JButton btnWithdraw = new JButton("Withdraw");
+		btnWithdraw.setBounds(294, 182, 111, 40);
+		btnWithdraw.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		frmBankAccountDetails.getContentPane().add(btnWithdraw);
+		btnWithdraw.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Double amt = Double.parseDouble(txtAmount.getText());	
+				Transaction t = new Transaction(strAccountID, "withdrawal", amt, bal - amt);
+				strBalance = Double.toString(bal - amt);
+				lblBalance.setText(strBalance);
+			}
+		});
+
+		JButton btnShowTransactions = new JButton("Show Transactions");
+		btnShowTransactions.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		btnShowTransactions.setBounds(10, 333, 179, 40);
+		frmBankAccountDetails.getContentPane().add(btnShowTransactions);
+		btnShowTransactions.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TransactionUI t = new TransactionUI(a);
 			}
 		});
 	}

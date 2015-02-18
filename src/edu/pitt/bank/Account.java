@@ -21,8 +21,12 @@ public class Account {
 	private ArrayList<Customer> accountOwners = new ArrayList<Customer>();
 	
 	public Account(String accountID){
-		String sql = "SELECT * FROM jcp65_bank1017.account "; 
-		sql += "WHERE accountID = '" + accountID + "'";
+		// String sql = "SELECT * FROM jcp65_bank1017.account ";
+		String sql = "SELECT * FROM jcp65_bank1017.account JOIN jcp65_bank1017.customer_account ON ";
+		sql += "jcp65_bank1017.account.accountID = jcp65_bank1017.customer_account.fk_accountID ";
+		sql += "JOIN jcp65_bank1017.customer ON ";
+		sql += "jcp65_bank1017.customer_account.fk_customerID = jcp65_bank1017.customer.customerID ";
+		sql += "WHERE jcp65_bank1017.account.accountID = '" + accountID + "'";
 		DbUtilities db = new MySqlUtilities();
 		try {
 			ResultSet rs = db.getResultSet(sql);
@@ -34,6 +38,8 @@ public class Account {
 				this.penalty = rs.getDouble("penalty");
 				this.status = rs.getString("status");
 				this.dateOpen = new Date();
+				Customer c = new Customer(rs.getString("customerID"));
+				addAccountOwner(c);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -133,9 +139,13 @@ public class Account {
 	public String getAccountType(){
 		return this.type;
 	}
-	
+
+	public ArrayList<Transaction> getTransactionList(){
+		return this.transactionList;
+	}
 	public void addAccountOwner(Customer accountOwner){
 		accountOwners.add(accountOwner);
 	}
 	
 }
+
