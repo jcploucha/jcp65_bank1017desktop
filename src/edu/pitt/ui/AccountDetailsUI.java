@@ -182,6 +182,7 @@ public class AccountDetailsUI {
 		strPenalty = Double.toString(a.getPenalty());
 		strAccountID = a.getAccountID();
 		double bal = a.getBalance();
+		System.out.println(a.getTransactionList().size());
 
 		
 		lblBalance = new JLabel(strBalance);
@@ -228,8 +229,8 @@ public class AccountDetailsUI {
 		btnDeposit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Double amt = Double.parseDouble(txtAmount.getText());	
-				Transaction t = new Transaction(strAccountID, "deposit", amt, bal + amt);
-				strBalance = Double.toString(bal + amt);
+				a.deposit(amt);
+				strBalance = Double.toString(a.getBalance());
 				lblBalance.setText(strBalance);
 			}
 		});
@@ -241,8 +242,8 @@ public class AccountDetailsUI {
 		btnWithdraw.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Double amt = Double.parseDouble(txtAmount.getText());	
-				Transaction t = new Transaction(strAccountID, "withdrawal", amt, bal - amt);
-				strBalance = Double.toString(bal - amt);
+				a.withdraw(amt);
+				strBalance = Double.toString(a.getBalance());
 				lblBalance.setText(strBalance);
 			}
 		});
@@ -252,7 +253,7 @@ public class AccountDetailsUI {
 		btnShowTransactions.setBounds(10, 333, 179, 40);
 		frmBankAccountDetails.getContentPane().add(btnShowTransactions);
 		btnShowTransactions.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {				
 				TransactionUI t = new TransactionUI(a);
 			}
 		});
