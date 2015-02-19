@@ -28,7 +28,7 @@ public class Transaction {
 				this.type = rs.getString("type");
 				this.amount = rs.getDouble("amount");
 				this.balance = rs.getDouble("balance");
-				this.transactionDate = new Date();
+				this.transactionDate = rs.getDate("transactionDate");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -52,12 +52,8 @@ public class Transaction {
 		sql += "CURDATE(), ";
 		sql += "'" + this.type + "', ";
 		sql += this.balance + ");";
-		sql = "UPDATE jcp65_bank1017.account SET balance = " + this.balance + " WHERE ";
-		sql += "accountID = '" + this.accountID + "';";
 
 		System.out.println(sql);
-
-
 		
 		DbUtilities db = new MySqlUtilities();
 		db.executeQuery(sql);
